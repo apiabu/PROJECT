@@ -1,0 +1,122 @@
+body.dark{
+    background:#0e1420;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color:white;
+}
+
+
+.books-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    gap:40px;
+}
+
+
+
+.books-box{
+    width:600px;
+    padding:25px;
+    border-radius:18px;
+    background:linear-gradient(145deg,#0f172a,#0b1120);
+    box-shadow: 0 0 35px rgba(0,0,0,0.7);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+#searchBox{
+    width:100%;
+    padding:12px 15px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.2);
+    outline:none;
+    background:#0d1220;
+    color:white;
+    margin-bottom:20px;
+    letter-spacing:1px;
+}
+
+
+.book-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    max-height:300px;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+.book-btn{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#111a30;
+    color:white;
+    cursor:pointer;
+    transition:0.2s;
+    border:1px solid rgba(255,255,255,0.15);
+}
+
+.book-btn:hover{
+    background:#1e2f5c;
+    transform:scale(1.03);
+}
+
+
+
+.back-btn{
+    margin-top:25px;
+    padding:10px 25px;
+    border-radius:50px;
+    background:#0c1324;
+    border:1px solid white;
+    color:white;
+}
+
+
+
+.detail-card{
+    width:420px;
+    padding:25px;
+    border-radius:18px;
+    background:linear-gradient(145deg,#0f172a,#0b1120);
+    box-shadow: 0 0 35px rgba(0,0,0,0.7);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+
+.detail-due{
+    background:#ffd700;
+    color:black;
+    padding:8px 12px;
+    border-radius:25px;
+    width:max-content;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.detail-title{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.detail-desc{
+    opacity:0.8;
+    margin-bottom:20px;
+}
+
+
+.borrow-btn{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:none;
+    background:#2e7dff;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.borrow-btn:hover{
+    background:#4d8eff;
+}

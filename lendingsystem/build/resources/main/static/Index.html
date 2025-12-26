@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lending System Dashboard</title>
+
+    <!-- SHARED styles -->
+    <link rel="stylesheet" href="css/base.css">
+
+    <!-- DASHBOARD styles -->
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- Protect dashboard -->
+    <script>
+        if (!localStorage.getItem("student")) {
+            window.location.href = "access.html";
+        }
+    </script>
+</head>
+
+<body class="dark">
+
+<div class="dash-wrapper">
+
+    <div class="dash-header">
+
+        <div class="brand">
+            <span class="brand-badge">UEP LENDING SYSTEM</span>
+        </div>
+
+        <div class="settings">
+            <span class="gear" onclick="toggleSettings()">⚙</span>
+            <div class="dropdown" id="settingsMenu">
+                <p id="studentName"></p>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="dash-panel">
+
+        <div class="menu-box">
+            <a class="menu-btn" href="books.html">Books</a>
+            <a class="menu-btn" href="students.html">Students</a>
+            <a class="menu-btn" href="borrow.html">Borrow Records</a>
+            <a class="menu-btn" href="return.html">Return</a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    const student = JSON.parse(localStorage.getItem("student"));
+    document.getElementById("studentName").textContent = student.fullname;
+
+    // show/hide dropdown
+    function toggleSettings(){
+        document.getElementById("settingsMenu").classList.toggle("show");
+    }
+
+    // logout only here
+    function logout(){
+        localStorage.removeItem("student");
+        window.location.href = "access.html";
+    }
+</script>
+
+</body>
+</html>

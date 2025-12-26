@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Students</title>
+    <link rel="stylesheet" href="css/students.css">
+</head>
+
+<body class="dark">
+
+<div class="student-box">
+
+    <h3>Student List</h3>
+
+    <div class="table-wrap">
+
+        <table class="student-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Student ID</th>
+                <th>Course / Year</th>
+            </tr>
+            </thead>
+
+            <tbody id="studentBody"></tbody>
+
+        </table>
+
+    </div>
+
+    <button class="back-btn" onclick="history.back()">Back</button>
+
+</div>
+
+
+<script>
+    fetch("/api/students")
+      .then(res => res.json())
+      .then(data => {
+
+        const table = document.getElementById("studentBody");
+        table.innerHTML = "";
+
+        data.forEach(s => {
+
+          table.innerHTML += `
+            <tr>
+              <td>${s.id}</td>
+              <td>${s.fullname}</td>
+              <td>${s.studentId}</td>
+              <td>${s.courseYear}</td>
+            </tr>
+          `;
+        });
+
+      });
+</script>
+
+</body>
+</html>

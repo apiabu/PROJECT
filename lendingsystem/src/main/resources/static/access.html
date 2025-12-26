@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Access</title>
+
+
+    <link rel="stylesheet" href="css/access.css">
+</head>
+
+<body class="dark access-bg">
+
+
+<div class="login-wrapper">
+
+    <img src="image/logo.png" class="logo-img">
+
+    <div class="access-box">
+
+        <form onsubmit="return verifyStudent(event)">
+            <input type="text" id="studentId" required placeholder="Student ID">
+
+            <button class="continue-btn">Continue</button>
+        </form>
+
+        <p id="msg" class="error"></p>
+
+    </div>
+
+</div>
+
+<script>
+    async function verifyStudent(event){
+        event.preventDefault();
+
+        const id = document.getElementById("studentId").value;
+
+        const response = await fetch(`/api/students?studentId=${id}`);
+
+        if(!response.ok){
+            document.getElementById("msg").textContent = "Student not found";
+            return;
+        }
+
+        const data = await response.json();
+
+        if(!data || data.length === 0){
+            document.getElementById("msg").textContent = "Invalid Student ID";
+            return;
+        }
+
+        localStorage.setItem("student", JSON.stringify(data[0]));
+
+        window.location.href = "index.html";
+    }
+</script>
+
+</body>
+</html>

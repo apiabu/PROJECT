@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Books</title>
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/books.css">
+
+</head>
+
+<body class="dark">
+
+<div class="books-wrapper">
+
+
+    <div class="books-box">
+
+        <input
+                id="searchBox"
+                placeholder="SEARCH BAR TO FIND BOOKS"
+                onkeyup="filterBooks()"
+        >
+
+        <div id="bookButtons" class="book-list"></div>
+
+        <button class="back-btn" onclick="history.back()">Back</button>
+    </div>
+
+
+
+    <div class="detail-card" id="detailBox" style="display:none;">
+
+        <div class="detail-due" id="detailDue"></div>
+
+        <div class="detail-title" id="detailTitle"></div>
+
+        <div class="detail-desc" id="detailDesc"></div>
+
+        <div class="detail-actions">
+            <button class="borrow-btn" onclick="borrowBook()">Borrow</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    let books = [];
+    let selectedBook = null;
+
+    fetch('/api/books')
+    .then(res=>res.json())
+    .then(data=>{
+        books = data;
+        loadBooks(data);
+    });
+
+    function loadBooks(list){
+        const box = document.getElementById("bookButtons");
+        box.innerHTML = "";
+        list.forEach(b=>{
+            const btn=document.createElement("button");
+            btn.className="book-btn";
+            btn.textContent=b.title;
+            btn.onclick=()=>openDetail(b);
+            box.appendChild(btn);
+        });
+    }
+
+    function filterBooks(){
+        const t = searchBox.value.toLowerCase();
+        loadBooks(
+            books.filter(b=>b.title?.toLowerCase().includes(t))
+        );
+    }
+
+    function getDueDate(days=7){
+        const d=new Date();
+        d.setDate(d.getDate()+days);
+        return d.toLocaleDateString();
+    }
+
+    function openDetail(book){
+        selectedBook = book;
+        detailTitle.textContent = book.title;
+        detailDesc.textContent = book.description || "No description available.";
+        detailDue.textContent = "Due Date: " + getDueDate(7);
+        detailBox.style.display="block";
+    }
+
+    async function borrowBook(){
+        if(!selectedBook) return alert("Please select a book first.");
+
+        const student = JSON.parse(localStorage.getItem("student"));
+        if(!student) return alert("Login required.");
+
+        const res = await fetch('/api/borrow',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                studentId:student.id,
+                bookId:selectedBook.id
+            })
+        });
+
+        if(!res.ok) return alert("Borrow failed.");
+
+        alert("Borrow successful!\nDue Date: "+getDueDate(7));
+        detailBox.style.display="none";
+    }
+</script>
+
+</body>
+</html>
