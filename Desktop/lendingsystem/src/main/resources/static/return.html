@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Return Borrowed Books</title>
+
+    <link rel="stylesheet" href="css/return.css">
+
+    <style>
+
+        /* ==== PAGE BG ==== */
+        body{
+          margin:0;
+          font-family: Arial;
+          background:#0f1724;
+          color:white;
+        }
+
+        /* ==== MAIN CARD ==== */
+        .return-box{
+          width:60%;
+          margin:60px auto;
+          background:#0d1220;
+          padding:20px;
+          border-radius:20px;
+          box-shadow:0 0 25px rgba(0,0,0,.6);
+        }
+
+        /* ==== HEADER BAR ==== */
+        .return-header{
+          background:#ffee9d;
+          color:black;
+          padding:10px;
+          text-align:center;
+          border-radius:10px;
+          font-weight:bold;
+        }
+
+        /* ==== TABLE ==== */
+        .return-table{
+          width:100%;
+          border-collapse:collapse;
+          margin-top:15px;
+        }
+
+        .return-table th{
+          background:#161d2e;
+          padding:10px;
+        }
+
+        .return-table td{
+          text-align:center;
+          padding:12px;
+          border-bottom:1px solid rgba(255,255,255,.1);
+        }
+
+        /* ==== BADGE ==== */
+        .status-badge{
+          padding:5px 12px;
+          border-radius:15px;
+          background:#2ecc71;
+        }
+
+        /* ==== BUTTON ==== */
+        button{
+          padding:8px 18px;
+          border-radius:12px;
+          border:1px solid white;
+          background:black;
+          color:white;
+        }
+
+        .back-btn{
+          display:block;
+          margin:15px auto;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="return-box">
+
+    <div class="return-header">
+        Return Borrowed Books
+    </div>
+
+    <table class="return-table">
+        <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="returnBody">
+        <tr>
+            <td colspan="4">Loading...</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="back-btn" onclick="history.back()">Back</button>
+
+</div>
+
+
+<script>
+
+    // Get logged-in student
+    const student = JSON.parse(localStorage.getItem("student"));
+
+    fetch(`/api/borrow?studentId=${student.id}`)
+    .then(res=>res.json())
+    .then(data=>{
+
+      const body=document.getElementById("returnBody");
+      body.innerHTML="";
+
+      const active=data.filter(r=>
+        (r.status||"").toLowerCase().includes("active")
+      );
+
+      if(active.length===0){
+        body.innerHTML=`
+          <tr>
+            <td colspan="4">No books to return </td>
+          </tr>`;
+        return;
+      }
+
+      active.forEach(r=>{
+        body.innerHTML+=`
+          <tr>
+            <td>${r.book?.title||"Unknown"}</td>
+            <td>${r.dateDue||"—"}</td>
+            <td><span class="status-badge">Active</span></td>
+            <td><button onclick="returnBook(${r.id})">Return</button></td>
+          </tr>
+        `;
+      });
+
+    });
+
+
+    async function returnBook(id){
+
+      if(!confirm("Confirm return?")) return;
+
+      let res=await fetch(`/api/borrow/${id}/return`,{method:"PUT"});
+
+      if(res.ok){
+        alert("Returned successfully");
+        location.reload();
+      }else{
+        alert("Return failed");
+      }
+
+    }
+
+</script>
+
+</body>
+</html>

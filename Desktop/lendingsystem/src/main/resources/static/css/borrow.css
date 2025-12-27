@@ -1,0 +1,72 @@
+.borrow-box{
+    margin:60px auto;
+    width:850px;
+    padding:15px;
+    background:white;
+    border-radius:6px;
+}
+
+.borrow-header{
+    background:#fff7b8;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+    border-radius:6px 6px 0 0;
+    margin-bottom:10px;
+}
+
+.borrow-table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+.borrow-table th,
+.borrow-table td{
+    padding:10px 12px;
+    border-bottom:1px solid #ddd;
+    font-size:14px;
+}
+
+.borrow-table th{
+    background:#f5f7fb;
+    font-weight:600;
+}
+
+
+.borrow-table,
+.borrow-table th,
+.borrow-table td{
+    color:#333 !important;
+}
+
+.status-badge{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status-active{ background:#e3f9e6; color:#1a7a2e; }
+.status-returned{ background:#e8f0ff; color:#3b64e6; }
+.status-overdue{ background:#ffe8e8; color:#b30000; }
+
+
+.action-btn{
+    padding:5px 12px;
+    font-size:12px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    background:#f8f8f8;
+}
+
+.back-btn{
+    margin:15px auto 5px;
+    display:block;
+    padding:6px 20px;
+    background:#0b0b0b;
+    color:white;
+    border:1px solid white;
+    border-radius:6px;
+}
+.back-btn:hover{ border-color:#6fbf73; }

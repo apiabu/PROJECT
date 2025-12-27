@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrow Records</title>
+    <link rel="stylesheet" href="css/borrow.css">
+</head>
+
+<body class="dark">
+
+<div class="borrow-box">
+
+    <div class="borrow-header">
+        Borrowing History Table
+    </div>
+
+    <table class="borrow-table">
+        <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="borrowBody"></tbody>
+    </table>
+
+    <button class="back-btn" onclick="history.back()">Back</button>
+
+
+</div>
+
+
+<script>
+    fetch('/api/borrow')
+    .then(res => res.json())
+    .then(data => {
+
+        const body = document.getElementById("borrowBody");
+        body.innerHTML = "";
+
+        data.forEach(item => {
+
+            // book may be nested — adjust if needed
+            const title = item.book?.title || "—";
+            const author = item.book?.author || "—";
+
+            const status = item.status || "Active";
+
+            let labelClass = "status-active";
+
+            if(status.toLowerCase().includes("returned"))
+                labelClass = "status-returned";
+
+            else if(status.toLowerCase().includes("overdue"))
+                labelClass = "status-overdue";
+
+            body.innerHTML += `
+                <tr>
+                    <td>${title}</td>
+                    <td>${author}</td>
+
+                    <td>
+                        <span class="status-badge ${labelClass}">
+                            ${status}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${
+                            status.toLowerCase().includes("active")
+                            ? `<button class="action-btn renew">Renew</button>`
+                            : status.toLowerCase().includes("overdue")
+                            ? `<button class="action-btn fine">Pay Fine</button>`
+                            : `<button class="action-btn view">View</button>`
+                        }
+                    </td>
+                </tr>
+            `;
+        });
+
+    });
+</script>
+
+</body>
+</html>
