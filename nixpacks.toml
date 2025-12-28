@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["openjdk17"]
+
+[phases.build]
+cmds = ["cd lendingsystem && ./gradlew bootJar"]
+
+[start]
+cmd = "java -jar lendingsystem/build/libs/*.jar"
